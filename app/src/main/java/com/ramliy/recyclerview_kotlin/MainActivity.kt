@@ -1,6 +1,7 @@
 package com.ramliy.recyclerview_kotlin
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        pb_home.visibility = View.VISIBLE
         NetworkProvider().api().discoverMovie()
             .enqueue(object : Callback<HomeResponse> {
                 override fun onFailure(call: Call<HomeResponse>, t: Throwable) {
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                     response: Response<HomeResponse>
                 ) {
                     val results = response.body()?.results
+                    pb_home.visibility = View.GONE
                     rv_home.adapter = HomeAdapter(results ?: emptyList())
                     rv_home.addItemDecoration(
                         DividerItemDecoration(
