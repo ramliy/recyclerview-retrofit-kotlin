@@ -12,7 +12,10 @@ import java.util.concurrent.TimeUnit
 class NetworkProvider {
     fun getInterceptor(): OkHttpClient {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        httpLoggingInterceptor.level = when(BuildConfig.DEBUG){
+            true -> HttpLoggingInterceptor.Level.BODY
+            false -> HttpLoggingInterceptor.Level.NONE
+        }
 
         var okhttp = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
